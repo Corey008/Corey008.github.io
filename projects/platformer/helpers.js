@@ -7,12 +7,16 @@ function registerSetup(setup) {
   setupGame = setup;
 }
 
+
 function main() {
   ctx.clearRect(0, 0, 1400, 750); //erase the screen so you can draw everything in it's most current position
 
   if (player.deadAndDeathAnimationDone) {
     deathOfPlayer();
     return;
+  }
+  if (shouldDrawGrid) {
+    drawGrid();
   }
 
   drawPlatforms();
@@ -421,12 +425,33 @@ function drawPlatforms() {
   }
 }
 
+function toggleGrid() {
+  shouldDrawGrid = true;
+}
+
 function drawGrid() {
+  // vertical grid lines
   for (let i = 100; i < canvas.width; i += 100) {
-    createPlatform(i, canvas.height, -1, -canvas.height);
+    createPlatform(i, canvas.height, -1, -canvas.height + 35);
+    // add text indicating x value at top of game
+    ctx.font = "125% serif";
+    ctx.fillText(
+      i, // text
+      i - 15, // x location
+      25 // y location
+    );
   }
+
+  // horizontal grid lines
   for (let i = 100; i < canvas.height; i += 100) {
-    createPlatform(canvas.width, i, -canvas.width, -1);
+    createPlatform(canvas.width, i, -canvas.width + 45, -1);
+    // add text indicating y value at left side of game
+    ctx.font = "125% serif";
+    ctx.fillText(
+      i, // text
+      10, // x location
+      i + 5 // y location
+    );
   }
 }
 
